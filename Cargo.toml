@@ -1,0 +1,13 @@
+[package]
+name = "zk-study-group"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ark-ff = { path = "/Users/marcin/personal/arkworks/algebra/ff" }
+ark-std = { git = "https://github.com/arkworks-rs/std" }
+clap = { version = "3.1.15", features = ["derive"] }
+nalgebra = "0.31.0"
+
+[patch.crates-io]
+ark-std = { git = "https://github.com/arkworks-rs/std" }
