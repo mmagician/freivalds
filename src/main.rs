@@ -1,18 +1,11 @@
 use ark_ff::{fields::Fp64, MontBackend, MontConfig, MontFp};
-use ark_ff::{BigInt, PrimeField};
-use ark_ff::{BigInteger64, UniformRand};
-use ark_std::rand::{
-    distributions::{Distribution, Standard},
-    Rng,
-};
+use ark_std::rand::Rng;
 use ark_std::str::FromStr;
 use clap::Parser;
 use std::fs::File;
-use std::io::{BufRead, Error, ErrorKind};
-use std::ops::MulAssign;
+use std::io::{self, BufRead, BufReader, Lines};
 use std::ops::{Deref, Mul};
 use std::path::Path;
-use std::{fs, io};
 
 #[derive(MontConfig)]
 #[modulus = "9739"]
@@ -61,9 +54,6 @@ impl Mul<&Vector> for &Matrix {
             result.push(value);
         });
 
-        println!("{:?}", result);
-        // self.into_iter()
-        //     .for_each(|x| x.into_iter().zip(rhs).map(|(a, b)| a * b));
         result
     }
 }
@@ -77,6 +67,7 @@ fn main() {
         .collect();
 
     let accept = verify(&matrices[0], &matrices[1], &matrices[2]);
+    println!("Result of the verification: {}", accept);
 }
 
 fn read_matrix(filename: &str) -> Result<Matrix, ()> {
@@ -99,12 +90,12 @@ fn read_matrix(filename: &str) -> Result<Matrix, ()> {
 
 // The output is wrapped in a Result to allow matching on errors
 // Returns an Iterator to the Reader of the lines of the file.
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+fn read_lines<P>(filename: P) -> io::Result<Lines<BufReader<File>>>
 where
     P: AsRef<Path>,
 {
     let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
+    Ok(BufReader::new(file).lines())
 }
 
 fn verify(a: &Matrix, b: &Matrix, c: &Matrix) -> bool {
@@ -119,7 +110,6 @@ fn verify(a: &Matrix, b: &Matrix, c: &Matrix) -> bool {
         temp *= r;
         x_vec.push(temp);
     }
-    // println!("Vec x is {:?}", x_vec);
 
     // 3. Multiply w=B.x
     let w: Vector = b * &x_vec;
@@ -133,6 +123,8 @@ fn verify(a: &Matrix, b: &Matrix, c: &Matrix) -> bool {
 
 #[test]
 fn test_serialization() {
+    use std::fs;
+
     let paths = fs::read_dir("./src/testdata").unwrap();
     for path in paths {
         assert!(read_matrix(path.unwrap().path().to_str().unwrap()).is_ok());
