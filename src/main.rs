@@ -8,7 +8,7 @@ use std::ops::{Deref, Mul};
 use std::path::Path;
 
 #[derive(MontConfig)]
-#[modulus = "9739"]
+#[modulus = "17"]
 #[generator = "3"]
 pub struct FqConfig;
 pub type Fq = Fp64<MontBackend<FqConfig, 1>>;
@@ -129,4 +129,21 @@ fn test_serialization() {
     for path in paths {
         assert!(read_matrix(path.unwrap().path().to_str().unwrap()).is_ok());
     }
+}
+
+#[test]
+fn test_full() {
+    let paths = vec![
+        "./src/testdata/a.txt",
+        "./src/testdata/b.txt",
+        "./src/testdata/c.txt",
+    ];
+
+    let matrices: Vec<Matrix> = paths
+        .into_iter()
+        .map(|path| read_matrix(&path).unwrap())
+        .collect();
+
+    let accept = verify(&matrices[0], &matrices[1], &matrices[2]);
+    assert!(accept);
 }
