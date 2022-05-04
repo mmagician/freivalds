@@ -50,16 +50,16 @@ impl Mul<&Vector> for &Matrix {
 
     fn mul(self, rhs: &Vector) -> Self::Output {
         let mut result = Vector::new();
-        for row in self.iter() {
-            // for entry in row.iter() {
-            //     // println!("{:?}", entry);
-            // }
+
+        self.iter().for_each(|row| {
+            // value will be the result of multiplying the current row
+            // by the vector: (1xN) x (Nx1) => 1x1
             let value = row
                 .iter()
                 .zip(rhs)
                 .fold(MontFp!(Fq, "0"), |acc, (x, y)| acc + (*x * y));
             result.push(value);
-        }
+        });
 
         println!("{:?}", result);
         // self.into_iter()
