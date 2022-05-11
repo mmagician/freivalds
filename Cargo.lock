@@ -14,12 +14,14 @@ dependencies = [
 [[package]]
 name = "ark-ff"
 version = "0.3.0"
+source = "git+https://github.com/arkworks-rs/algebra#9a2642157705f1822e2ab39146615c21bc0b27f1"
 dependencies = [
  "ark-ff-asm",
  "ark-ff-macros",
  "ark-serialize",
  "ark-std",
  "derivative",
+ "digest",
  "num-bigint",
  "num-traits",
  "paste",
@@ -30,6 +32,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-asm"
 version = "0.3.0"
+source = "git+https://github.com/arkworks-rs/algebra#9a2642157705f1822e2ab39146615c21bc0b27f1"
 dependencies = [
  "quote",
  "syn",
@@ -38,6 +41,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-macros"
 version = "0.3.0"
+source = "git+https://github.com/arkworks-rs/algebra#9a2642157705f1822e2ab39146615c21bc0b27f1"
 dependencies = [
  "num-bigint",
  "num-traits",
@@ -48,6 +52,7 @@ dependencies = [
 [[package]]
 name = "ark-serialize"
 version = "0.3.0"
+source = "git+https://github.com/arkworks-rs/algebra#9a2642157705f1822e2ab39146615c21bc0b27f1"
 dependencies = [
  "ark-std",
  "digest",

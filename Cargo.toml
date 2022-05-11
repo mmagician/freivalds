@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ark-ff = { path = "/Users/marcin/personal/arkworks/algebra/ff" }
+ark-ff = { git = "https://github.com/arkworks-rs/algebra"  }
 ark-std = { git = "https://github.com/arkworks-rs/std" }
 clap = { version = "3.1.15", features = ["derive"] }
 nalgebra = "0.31.0"
